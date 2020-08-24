@@ -1,4 +1,5 @@
 # Copyright (c) 2020 5axes
+#
 # Initial Source from Johnny Matthews https://github.com/johnnygizmo/CuraSettingsWriter 
 # The HTML plugin is released under the terms of the AGPLv3 or higher.
 # Version 1.0.3 : simplify the source code with WriteTd
