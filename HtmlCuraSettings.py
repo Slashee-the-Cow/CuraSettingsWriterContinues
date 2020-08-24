@@ -4,6 +4,7 @@
 # Version 1.0.3 : simplify the source code with WriteTd
 #               : Export also the meshfix paramater section by extruder and complementary information on extruder for machine definition
 # Version 1.0.4 : html cleanup, no jquery dependency  thanks to https://github.com/etet100
+# Version 1.0.5 : for configuration with multi extruder export the right extrudeur position and the information concerning the enabled
 #  
 import os
 import platform
@@ -97,13 +98,20 @@ class HtmlCuraSettings(WorkspaceWriter):
                 
         # Material
         extruders = list(global_stack.extruders.values())      
-        i=0
+
         for Extrud in list(global_stack.extruders.values()):
-            i += 1
+            PosE = int(Extrud.getMetaDataEntry("position"))
+            PosE += 1
+            
             M_Name = Extrud.material.getMetaData().get("material", "")
-            MaterialStr="%s %s : %d"%(i18n_cura_catalog.i18nc("@label", "Material"),i18n_cura_catalog.i18nc("@label", "Extruder"),i)
+            
+            MaterialStr="%s %s : %d"%(i18n_cura_catalog.i18nc("@label", "Material"),i18n_cura_catalog.i18nc("@label", "Extruder"),PosE)
             self._WriteTd(stream,MaterialStr,M_Name)
-  
+
+            M_Enabled = Extrud.getMetaDataEntry("enabled")
+            EnabledStr="%s %s : %d"%(i18n_cura_catalog.i18nc("@label", "Extruder"),i18n_cura_catalog.i18nc("@label", "Enabled"),PosE)
+            self._WriteTd(stream,EnabledStr,M_Enabled)
+            
         MAterial=0
         #   materialWeights
         for Mat in list(print_information.materialWeights):
@@ -119,8 +127,8 @@ class HtmlCuraSettings(WorkspaceWriter):
         # Define every section to get the same order as in the Cura Interface
         # Modification from global_stack to extruders[0]
         i=0
-        for Extrud in list(global_stack.extruders.values()):
-            i += 1
+        for Extrud in list(global_stack.extruders.values()):    
+            i += 1                        
             self._doTree(Extrud,"resolution",stream,0,i)
             self._doTree(Extrud,"shell",stream,0,i)
             self._doTree(Extrud,"infill",stream,0,i)
@@ -135,13 +143,16 @@ class HtmlCuraSettings(WorkspaceWriter):
 
         self._doTree(extruders[0],"support",stream,0,0)
         self._doTree(extruders[0],"platform_adhesion",stream,0,0)
+        
         i=0
         for Extrud in list(global_stack.extruders.values()):
             i += 1
             self._doTree(Extrud,"meshfix",stream,0,i)
+        
         self._doTree(extruders[0],"blackmagic",stream,0,0)
         self._doTree(extruders[0],"experimental",stream,0,0)
         self._doTree(extruders[0],"machine_settings",stream,0,0)
+        
         i=0
         for Extrud in list(global_stack.extruders.values()):
             i += 1
@@ -176,8 +187,10 @@ class HtmlCuraSettings(WorkspaceWriter):
             stream.write("<tr class='category'>")
             if extrud>0:
                 untranslated_label=stack.getProperty(key,"label")
-                translated_label=i18n_catalog.i18nc(definition_key, untranslated_label)
-                Info_Extrud="%s : %d %s"%(ExtruderStrg,extrud,translated_label)
+                translated_label=i18n_catalog.i18nc(definition_key, untranslated_label) 
+                Pos = int(stack.getMetaDataEntry("position"))   
+                Pos += 1
+                Info_Extrud="%s : %d %s"%(ExtruderStrg,Pos,translated_label)
             else:
                 untranslated_label=stack.getProperty(key,"label")
                 translated_label=i18n_catalog.i18nc(definition_key, untranslated_label)
@@ -227,7 +240,9 @@ class HtmlCuraSettings(WorkspaceWriter):
             if extrud>0:
                 untranslated_label=stack.getProperty(key,"label")
                 translated_label=i18n_extrud_catalog.i18nc(definition_key, untranslated_label)
-                Info_Extrud="%s : %d %s"%(ExtruderStrg,extrud,translated_label)
+                Pos = int(stack.getMetaDataEntry("position"))   
+                Pos += 1                
+                Info_Extrud="%s : %d %s"%(ExtruderStrg,Pos,translated_label)
             else:
                 untranslated_label=stack.getProperty(key,"label")
                 translated_label=i18n_extrud_catalog.i18nc(definition_key, untranslated_label)
