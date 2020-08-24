@@ -107,10 +107,11 @@ class HtmlCuraSettings(WorkspaceWriter):
             
             MaterialStr="%s %s : %d"%(i18n_cura_catalog.i18nc("@label", "Material"),i18n_cura_catalog.i18nc("@label", "Extruder"),PosE)
             self._WriteTd(stream,MaterialStr,M_Name)
-
-            M_Enabled = Extrud.getMetaDataEntry("enabled")
-            EnabledStr="%s %s : %d"%(i18n_cura_catalog.i18nc("@label", "Extruder"),i18n_cura_catalog.i18nc("@label", "Enabled"),PosE)
-            self._WriteTd(stream,EnabledStr,M_Enabled)
+            
+            if extruder_count>1:
+                M_Enabled = Extrud.getMetaDataEntry("enabled")
+                EnabledStr="%s %s : %d"%(i18n_cura_catalog.i18nc("@label", "Extruder"),i18n_cura_catalog.i18nc("@label", "Enabled"),PosE)
+                self._WriteTd(stream,EnabledStr,M_Enabled)
             
         MAterial=0
         #   materialWeights
