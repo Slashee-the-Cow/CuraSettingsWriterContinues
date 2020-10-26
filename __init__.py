@@ -3,19 +3,22 @@
 
 from . import HtmlCuraSettings
 
+from UM.Platform import Platform
 from UM.i18n import i18nCatalog
 catalog = i18nCatalog("cura")
 
-def getMetaData():
-    return {
-        "workspace_writer": { 
-            "output": [{
-                "extension": "html",
-                "description": catalog.i18nc("@item:inlistbox", "Cura Settings Documentation"),
-                "mime_type": "text/html"
-            }]
-        }
+def getMetaData():    
+    metaData = {}
+    
+    metaData["workspace_writer"] = {
+        "output": [{
+            "extension": "html",
+            "description": catalog.i18nc("@item:inlistbox", "Cura Settings Documentation"),
+            "mime_type": "text/html",
+            "mode": HtmlCuraSettings.HtmlCuraSettings.OutputMode.TextMode
+        }]
     }
+    return metaData
 
 def register(app):
     return { "workspace_writer": HtmlCuraSettings.HtmlCuraSettings() }

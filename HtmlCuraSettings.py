@@ -1,11 +1,11 @@
 # Copyright (c) 2020 5axes
-#
 # Initial Source from Johnny Matthews https://github.com/johnnygizmo/CuraSettingsWriter 
 # The HTML plugin is released under the terms of the AGPLv3 or higher.
 # Version 1.0.3 : simplify the source code with WriteTd
 #               : Export also the meshfix paramater section by extruder and complementary information on extruder for machine definition
 # Version 1.0.4 : html cleanup, no jquery dependency  thanks to https://github.com/etet100
 # Version 1.0.5 : for configuration with multi extruder export the right extrudeur position and the information concerning the enabled
+# Version 1.0.6 : table width='100%'
 #  
 import os
 import platform
@@ -26,10 +26,10 @@ from UM.Message import Message
 
 class HtmlCuraSettings(WorkspaceWriter):
 
-    def write(self, stream, nodes, mode):
+    def write(self, stream, nodes, mode = WorkspaceWriter.OutputMode.TextMode):
     
         # Current File path
-        Logger.log("d", "stream = %s", os.path.abspath(stream.name))
+        # Logger.log("d", "stream = %s", os.path.abspath(stream.name))
         
         stream.write("""<!DOCTYPE html>
             <meta charset='UTF-8'>
@@ -76,7 +76,7 @@ class HtmlCuraSettings(WorkspaceWriter):
         extruder_count=stack.getProperty("machine_extruder_count", "value")
         print_information = CuraApplication.getInstance().getPrintInformation()
         
-        stream.write("<table width='50%' border='1' cellpadding='3'>")
+        stream.write("<table width='100%' border='1' cellpadding='3'>")
         # Job
         self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Job Name"),print_information.jobName)
         
@@ -183,6 +183,7 @@ class HtmlCuraSettings(WorkspaceWriter):
         #output node
         Info_Extrud=""
         definition_key=key + " label"
+        
         ExtruderStrg = i18n_cura_catalog.i18nc("@label", "Extruder")
         
         if stack.getProperty(key,"type") == "category":
@@ -219,7 +220,7 @@ class HtmlCuraSettings(WorkspaceWriter):
                 GelValStr="{:.4f}".format(GetVal).rstrip("0").rstrip(".") # Formatage thanks to r_moeller
             else:
                 GelValStr=str(GetVal)
-                
+            
             stream.write("<td class='val'>" + GelValStr + "</td>")
             
             stream.write("<td class='w-10'>" + str(stack.getProperty(key,"unit")) + "</td>")
