@@ -41,7 +41,7 @@ class HtmlCuraSettings(WorkspaceWriter):
                 <style>
                     tr.category td { font-size: 1.1em; background-color: rgb(142,170,219); }
                     tr.disabled td { background-color: #eaeaea; color: #717171; }
-                    tr.local td { background-color: rgb(95,237,95); }
+                    tr.local td { background-color: #77DD77; }
                     body.hide-disabled tr.disabled { display: none; }
                     body.hide-local tr.normal { display: none; }
                     .val { width: 200px; text-align: right; }
