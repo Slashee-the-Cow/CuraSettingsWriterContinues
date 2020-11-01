@@ -6,13 +6,16 @@
 # Version 1.0.4 : html cleanup, no jquery dependency  thanks to https://github.com/etet100
 # Version 1.0.5 : for configuration with multi extruder export the right extrudeur position and the information concerning the enabled
 # Version 1.0.6 : table width='100%'
+# Version 1.0.7 : Set in green variable modified in the top stack ( User modification )
 #  
 import os
 import platform
 
 from datetime import datetime
+from typing import cast, Dict, List, Optional, Tuple, Any, Set
 from cura.CuraApplication import CuraApplication
 from UM.Workspace.WorkspaceWriter import WorkspaceWriter
+from UM.Settings.InstanceContainer import InstanceContainer
 
 from cura.CuraVersion import CuraVersion  # type: ignore
 
@@ -38,7 +41,9 @@ class HtmlCuraSettings(WorkspaceWriter):
                 <style>
                     tr.category td { font-size: 1.1em; background-color: rgb(142,170,219); }
                     tr.disabled td { background-color: #eaeaea; color: #717171; }
+                    tr.local td { background-color: rgb(95,237,95); }
                     body.hide-disabled tr.disabled { display: none; }
+                    body.hide-local tr.normal { display: none; }
                     .val { width: 200px; text-align: right; }
                     .w-10 { width: 10%; }
                     .w-50 { width: 50%; }
@@ -60,9 +65,11 @@ class HtmlCuraSettings(WorkspaceWriter):
 
         TitleTxt =i18n_cura_catalog.i18nc("@label","Print settings")
         ButtonTxt = i18n_cura_catalog.i18nc("@action:label","Visible settings:")
+        ButtonTxt2 = i18n_cura_catalog.i18nc("@action:label","Custom selection")
 
         stream.write("<h1>" + TitleTxt + "</h1>\n")
         stream.write("<button id='enabled'>" + ButtonTxt + "</button><P>\n")
+        stream.write("<button id='local'>" + ButtonTxt2 + "</button><P>\n")
 
         # Script       
         stream.write("""<script>
@@ -71,7 +78,13 @@ class HtmlCuraSettings(WorkspaceWriter):
                                 document.body.classList.toggle('hide-disabled');
                             });
                         </script>\n""")
-
+        stream.write("""<script>
+                            var local = document.getElementById('local');
+                            local.addEventListener('click', function() {
+                                document.body.classList.toggle('hide-local');
+                            });
+                        </script>\n""")
+                        
         #Get extruder count
         extruder_count=stack.getProperty("machine_extruder_count", "value")
         print_information = CuraApplication.getInstance().getPrintInformation()
@@ -183,9 +196,10 @@ class HtmlCuraSettings(WorkspaceWriter):
         #output node
         Info_Extrud=""
         definition_key=key + " label"
-        
         ExtruderStrg = i18n_cura_catalog.i18nc("@label", "Extruder")
-        
+        top_of_stack = cast(InstanceContainer, stack.getTop())  # Cache for efficiency.
+        changed_setting_keys = top_of_stack.getAllKeys()            
+
         if stack.getProperty(key,"type") == "category":
             stream.write("<tr class='category'>")
             if extrud>0:
@@ -205,7 +219,10 @@ class HtmlCuraSettings(WorkspaceWriter):
             if stack.getProperty(key,"enabled") == False:
                 stream.write("<tr class='disabled'>")
             else:
-                stream.write("<tr>")
+                if key in changed_setting_keys:
+                    stream.write("<tr class='local'>")
+                else:
+                    stream.write("<tr class='normal'>")
             
             # untranslated_label=stack.getProperty(key,"label").capitalize()
             untranslated_label=stack.getProperty(key,"label")           
@@ -238,6 +255,8 @@ class HtmlCuraSettings(WorkspaceWriter):
         Info_Extrud=""
         definition_key=key + " label"
         ExtruderStrg = i18n_cura_catalog.i18nc("@label", "Extruder")
+        top_of_stack = cast(InstanceContainer, stack.getTop())  # Cache for efficiency.
+        changed_setting_keys = top_of_stack.getAllKeys()
         
         if stack.getProperty(key,"type") == "category":
             if extrud>0:
@@ -256,7 +275,10 @@ class HtmlCuraSettings(WorkspaceWriter):
             if stack.getProperty(key,"enabled") == False:
                 stream.write("<tr class='disabled'>")
             else:
-                stream.write("<tr>")
+                if key in changed_setting_keys:
+                    stream.write("<tr class='local'>")
+                else:
+                    stream.write("<tr class='normal'>")
             
             # untranslated_label=stack.getProperty(key,"label").capitalize()
             untranslated_label=stack.getProperty(key,"label")           
