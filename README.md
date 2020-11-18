@@ -18,3 +18,4 @@ Hereafter a sample screenshot of what you get as result.
 - 1.0.5 For machine with multi extruder export the right extrudeur position and the information concerning the extruder Enabled
 - 1.0.6 Fix Table width to 100% for printing purpose and export to pdf
 - 1.0.7 Identify custom user modification on the top level of the settings with a green back color and add a button to hide normal settings
+- 1.0.8 Options are also now translated in the native langage choosen in the Cura settings
