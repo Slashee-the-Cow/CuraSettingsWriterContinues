@@ -7,6 +7,7 @@
 # Version 1.0.5 : for configuration with multi extruder export the right extrudeur position and the information concerning the enabled
 # Version 1.0.6 : table width='100%'
 # Version 1.0.7 : Set in green variable modified in the top stack ( User modification )
+# Version 1.0.8 : Option are now also translated
 #  
 import os
 import platform
@@ -232,11 +233,21 @@ class HtmlCuraSettings(WorkspaceWriter):
             
             GetType=stack.getProperty(key,"type")
             GetVal=stack.getProperty(key,"value")
+            
             if str(GetType)=='float':
                 # GelValStr="{:.2f}".format(GetVal).replace(".00", "")  # Formatage
                 GelValStr="{:.4f}".format(GetVal).rstrip("0").rstrip(".") # Formatage thanks to r_moeller
             else:
-                GelValStr=str(GetVal)
+                # enum = Option list
+                if str(GetType)=='enum':
+                    definition_option=key + " option " + str(GetVal)
+                    get_option=str(GetVal)
+                    GetOption=stack.getProperty(key,"options")
+                    GetOptionDetail=GetOption[get_option]
+                    GelValStr=i18n_catalog.i18nc(definition_option, GetOptionDetail)
+                    # Logger.log("d", "GetType_doTree = %s ; %s ; %s ; %s",definition_option, GelValStr, GetOption, GetOptionDetail)
+                else:
+                    GelValStr=str(GetVal)
             
             stream.write("<td class='val'>" + GelValStr + "</td>")
             
@@ -292,7 +303,16 @@ class HtmlCuraSettings(WorkspaceWriter):
                 # GelValStr="{:.2f}".format(GetVal).replace(".00", "")  # Formatage
                 GelValStr="{:.4f}".format(GetVal).rstrip("0").rstrip(".") # Formatage thanks to r_moeller
             else:
-                GelValStr=str(GetVal)
+                # enum = Option list
+                if str(GetType)=='enum':
+                    definition_option=key + " option " + str(GetVal)
+                    get_option=str(GetVal)
+                    GetOption=stack.getProperty(key,"options")
+                    GetOptionDetail=GetOption[get_option]
+                    GelValStr=i18n_catalog.i18nc(definition_option, GetOptionDetail)
+                    # Logger.log("d", "GetType_doTree = %s ; %s ; %s ; %s",definition_option, GelValStr, GetOption, GetOptionDetail)
+                else:
+                    GelValStr=str(GetVal)
                 
             stream.write("<td class='val'>" + GelValStr + "</td>")
             
