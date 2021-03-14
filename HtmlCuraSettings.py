@@ -41,7 +41,7 @@ class HtmlCuraSettings(WorkspaceWriter):
 
         # Test version for futur release 4.9
         if "master" in CuraVersion or "beta" in CuraVersion or "BETA" in CuraVersion:
-            Logger.log('d', "Info G-Code Documentation --> " + str(CuraVersion))
+            #Logger.log('d', "Info CuraVersion --> " + str(CuraVersion))
             VersC=4.9  # Master is always a developement version.
         else:
             try:
