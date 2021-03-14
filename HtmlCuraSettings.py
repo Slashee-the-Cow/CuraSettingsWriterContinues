@@ -161,6 +161,7 @@ class HtmlCuraSettings(WorkspaceWriter):
             i += 1                        
             self._doTree(Extrud,"resolution",stream,0,i)
             self._doTree(Extrud,"shell",stream,0,i)
+            # New section Arachne and 4.9 ?
             if VersC > 4.8:
                 self._doTree(Extrud,"top_bottom",stream,0,i)
             self._doTree(Extrud,"infill",stream,0,i)
