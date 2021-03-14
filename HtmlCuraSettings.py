@@ -1,3 +1,4 @@
+#-------------------------------------------------------------------------------------------------
 # Copyright (c) 2020 5axes
 # Initial Source from Johnny Matthews https://github.com/johnnygizmo/CuraSettingsWriter 
 # The HTML plugin is released under the terms of the AGPLv3 or higher.
@@ -8,7 +9,8 @@
 # Version 1.0.6 : table width='100%'
 # Version 1.0.7 : Set in green variable modified in the top stack ( User modification )
 # Version 1.0.8 : Option are now also translated
-#  
+# Version 1.1.0 : New Top_Bottom category (for Beta and Master)
+#-------------------------------------------------------------------------------------------------
 import os
 import platform
 
@@ -34,7 +36,19 @@ class HtmlCuraSettings(WorkspaceWriter):
     
         # Current File path
         # Logger.log("d", "stream = %s", os.path.abspath(stream.name))
-        
+
+        VersC=1.0
+
+        # Test version for futur release 4.9
+        if "master" in CuraVersion or "beta" in CuraVersion or "BETA" in CuraVersion:
+            Logger.log('d', "Info G-Code Documentation --> " + str(CuraVersion))
+            VersC=4.9  # Master is always a developement version.
+        else:
+            try:
+                VersC = int(CuraVersion.split(".")[0])+int(CuraVersion.split(".")[1])/10
+            except:
+                pass
+                
         stream.write("""<!DOCTYPE html>
             <meta charset='UTF-8'>
             <head>
@@ -147,6 +161,8 @@ class HtmlCuraSettings(WorkspaceWriter):
             i += 1                        
             self._doTree(Extrud,"resolution",stream,0,i)
             self._doTree(Extrud,"shell",stream,0,i)
+            if VersC > 4.8:
+                self._doTree(Extrud,"top_bottom",stream,0,i)
             self._doTree(Extrud,"infill",stream,0,i)
             self._doTree(Extrud,"material",stream,0,i)
             self._doTree(Extrud,"speed",stream,0,i)
