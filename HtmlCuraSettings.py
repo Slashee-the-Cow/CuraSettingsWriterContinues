@@ -126,6 +126,7 @@ class HtmlCuraSettings(WorkspaceWriter):
             self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Intent"),P_Name)
         else:
             self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Profile"),P_Name)
+        
         # Quality
         Q_Name = global_stack.quality.getMetaData().get("name", "")
         self._WriteTd(stream,i18n_cura_catalog.i18nc("@label:table_header","Quality"),Q_Name)
