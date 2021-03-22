@@ -10,6 +10,7 @@
 # Version 1.0.7 : Set in green variable modified in the top stack ( User modification )
 # Version 1.0.8 : Option are now also translated
 # Version 1.1.0 : New Top_Bottom category (for Beta and Master)
+# Version 1.1.1 : Machine_manager.activeIntentCategory if Intent is used ( Ultimaker Machine)
 #-------------------------------------------------------------------------------------------------
 import os
 import platform
@@ -118,9 +119,13 @@ class HtmlCuraSettings(WorkspaceWriter):
         # Version  
         self._WriteTd(stream,"Cura Version",CuraVersion)
             
-        # Profile
+        # Profile || Intent for Ultimaker Machine
         P_Name = global_stack.qualityChanges.getMetaData().get("name", "")
-        self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Profile"),P_Name)
+        if P_Name=="empty":
+            P_Name = machine_manager.activeIntentCategory
+            self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Intent"),P_Name)
+        else:
+            self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Profile"),P_Name)
         # Quality
         Q_Name = global_stack.quality.getMetaData().get("name", "")
         self._WriteTd(stream,i18n_cura_catalog.i18nc("@label:table_header","Quality"),Q_Name)
