@@ -22,3 +22,5 @@ Hereafter a sample screenshot of what you get as result.
 
 
 - 1.1.0 New section top/bottom for Arachne or futur 4.9 release ?
+- 1.1.1 Minor modification for the Ultimaker machine when it is not a profile that is defined but an intention, output the **activeIntentCategory** instead of the profile name
+
