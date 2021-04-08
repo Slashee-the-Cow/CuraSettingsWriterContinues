@@ -53,8 +53,7 @@ class HtmlCuraSettings(WorkspaceWriter):
                 self.VersC = int(CuraVersion.split(".")[0])+int(CuraVersion.split(".")[1])/10
             except:
                 pass
-        
-        Logger.log('d', "Info VersC --> " + str(self.VersC))      
+            
         
         stream.write("""<!DOCTYPE html>
             <meta charset='UTF-8'>
@@ -175,9 +174,9 @@ class HtmlCuraSettings(WorkspaceWriter):
             # Shell before 4.9 and now walls
             self._doTree(Extrud,"shell",stream,0,i)
             # New section Arachne and 4.9 ?
-            if self.VersC > 4.8:
+            if VersC > 4.8:
                 self._doTree(Extrud,"top_bottom",stream,0,i)
-                
+
             self._doTree(Extrud,"infill",stream,0,i)
             self._doTree(Extrud,"material",stream,0,i)
             self._doTree(Extrud,"speed",stream,0,i)
