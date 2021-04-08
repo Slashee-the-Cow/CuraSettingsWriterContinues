@@ -11,6 +11,7 @@
 # Version 1.0.8 : Option are now also translated
 # Version 1.1.0 : New Top_Bottom category (for Beta and Master)
 # Version 1.1.1 : Machine_manager.activeIntentCategory if Intent is used ( Ultimaker Machine)
+# Version 1.1.2 : Bug correction with Arachne beta release
 #-------------------------------------------------------------------------------------------------
 import os
 import platform
