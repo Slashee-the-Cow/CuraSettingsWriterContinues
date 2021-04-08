@@ -1,3 +1,4 @@
+#-------------------------------------------------------------------------------------------------
 # Copyright (c) 2020 5axes
 # Initial Source from Johnny Matthews https://github.com/johnnygizmo/CuraSettingsWriter 
 # The HTML plugin is released under the terms of the AGPLv3 or higher.
@@ -8,7 +9,9 @@
 # Version 1.0.6 : table width='100%'
 # Version 1.0.7 : Set in green variable modified in the top stack ( User modification )
 # Version 1.0.8 : Option are now also translated
-#  
+# Version 1.1.0 : New Top_Bottom category (for Beta and Master)
+# Version 1.1.1 : Machine_manager.activeIntentCategory if Intent is used ( Ultimaker Machine)
+#-------------------------------------------------------------------------------------------------
 import os
 import platform
 
@@ -19,6 +22,7 @@ from UM.Workspace.WorkspaceWriter import WorkspaceWriter
 from UM.Settings.InstanceContainer import InstanceContainer
 
 from cura.CuraVersion import CuraVersion  # type: ignore
+from UM.Version import Version
 
 from UM.i18n import i18nCatalog
 i18n_cura_catalog = i18nCatalog("cura")
@@ -34,6 +38,23 @@ class HtmlCuraSettings(WorkspaceWriter):
     
         # Current File path
         # Logger.log("d", "stream = %s", os.path.abspath(stream.name))
+
+        self.VersC=1.0
+
+        # Logger.log('d', "Info Version CuraVersion --> " + str(Version(CuraVersion)))
+        Logger.log('d', "Info CuraVersion --> " + str(CuraVersion))
+        
+        # Test version for futur release 4.9
+        if "master" in CuraVersion or "beta" in CuraVersion or "BETA" in CuraVersion:
+            #
+            self.VersC=4.9  # Master is always a developement version.
+        else:
+            try:
+                self.VersC = int(CuraVersion.split(".")[0])+int(CuraVersion.split(".")[1])/10
+            except:
+                pass
+        
+        Logger.log('d', "Info VersC --> " + str(self.VersC))      
         
         stream.write("""<!DOCTYPE html>
             <meta charset='UTF-8'>
@@ -104,9 +125,14 @@ class HtmlCuraSettings(WorkspaceWriter):
         # Version  
         self._WriteTd(stream,"Cura Version",CuraVersion)
             
-        # Profile
+        # Profile || Intent for Ultimaker Machine
         P_Name = global_stack.qualityChanges.getMetaData().get("name", "")
-        self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Profile"),P_Name)
+        if P_Name=="empty":
+            P_Name = machine_manager.activeIntentCategory
+            self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Intent"),P_Name)
+        else:
+            self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Profile"),P_Name)
+        
         # Quality
         Q_Name = global_stack.quality.getMetaData().get("name", "")
         self._WriteTd(stream,i18n_cura_catalog.i18nc("@label:table_header","Quality"),Q_Name)
@@ -146,7 +172,12 @@ class HtmlCuraSettings(WorkspaceWriter):
         for Extrud in list(global_stack.extruders.values()):    
             i += 1                        
             self._doTree(Extrud,"resolution",stream,0,i)
+            # Shell before 4.9 and now walls
             self._doTree(Extrud,"shell",stream,0,i)
+            # New section Arachne and 4.9 ?
+            if self.VersC > 4.8:
+                self._doTree(Extrud,"top_bottom",stream,0,i)
+                
             self._doTree(Extrud,"infill",stream,0,i)
             self._doTree(Extrud,"material",stream,0,i)
             self._doTree(Extrud,"speed",stream,0,i)
