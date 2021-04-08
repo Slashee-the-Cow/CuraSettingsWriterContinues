@@ -22,6 +22,7 @@ from UM.Workspace.WorkspaceWriter import WorkspaceWriter
 from UM.Settings.InstanceContainer import InstanceContainer
 
 from cura.CuraVersion import CuraVersion  # type: ignore
+from UM.Version import Version
 
 from UM.i18n import i18nCatalog
 i18n_cura_catalog = i18nCatalog("cura")
@@ -40,9 +41,10 @@ class HtmlCuraSettings(WorkspaceWriter):
 
         VersC=1.0
 
+        Logger.log('d', "Info CuraVersion --> " + str(Version(CuraVersion)))
         # Test version for futur release 4.9
         if "master" in CuraVersion or "beta" in CuraVersion or "BETA" in CuraVersion:
-            #Logger.log('d', "Info CuraVersion --> " + str(CuraVersion))
+            #
             VersC=4.9  # Master is always a developement version.
         else:
             try:
