@@ -40,18 +40,22 @@ class HtmlCuraSettings(WorkspaceWriter):
         # Current File path
         # Logger.log("d", "stream = %s", os.path.abspath(stream.name))
 
-        self.VersC=1.0
+        self.Major=1
+        self.Minor=0
 
         # Logger.log('d', "Info Version CuraVersion --> " + str(Version(CuraVersion)))
         Logger.log('d', "Info CuraVersion --> " + str(CuraVersion))
         
         # Test version for futur release 4.9
         if "master" in CuraVersion or "beta" in CuraVersion or "BETA" in CuraVersion:
-            #
-            self.VersC=4.9  # Master is always a developement version.
+            # Master is always a developement version.
+            self.Major=4
+            self.Minor=9
+
         else:
             try:
-                self.VersC = int(CuraVersion.split(".")[0])+int(CuraVersion.split(".")[1])/10
+                self.Major = int(CuraVersion.split(".")[0])
+                self.Minor = int(CuraVersion.split(".")[1])
             except:
                 pass
             
@@ -175,7 +179,7 @@ class HtmlCuraSettings(WorkspaceWriter):
             # Shell before 4.9 and now walls
             self._doTree(Extrud,"shell",stream,0,i)
             # New section Arachne and 4.9 ?
-            if VersC > 4.8:
+            if self.Major >= 4 and self.Minor >= 9 :
                 self._doTree(Extrud,"top_bottom",stream,0,i)
 
             self._doTree(Extrud,"infill",stream,0,i)
