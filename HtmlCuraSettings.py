@@ -12,6 +12,7 @@
 # Version 1.1.0 : New Top_Bottom category (for Beta and Master)
 # Version 1.1.1 : Machine_manager.activeIntentCategory if Intent is used ( Ultimaker Machine)
 # Version 1.1.2 : Bug correction with Arachne beta release
+# Version 1.1.3 : Add Filament Cost / Material usage
 #-------------------------------------------------------------------------------------------------
 import os
 import platform
@@ -21,6 +22,9 @@ from typing import cast, Dict, List, Optional, Tuple, Any, Set
 from cura.CuraApplication import CuraApplication
 from UM.Workspace.WorkspaceWriter import WorkspaceWriter
 from UM.Settings.InstanceContainer import InstanceContainer
+from UM.Settings.ContainerRegistry import ContainerRegistry
+from UM.Qt.Duration import DurationFormat
+from UM.Preferences import Preferences
 
 from cura.CuraVersion import CuraVersion  # type: ignore
 from UM.Version import Version
@@ -119,6 +123,7 @@ class HtmlCuraSettings(WorkspaceWriter):
         # Job
         self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Job Name"),print_information.jobName)
         
+              
         # File
         # self._WriteTd(stream,"File",os.path.abspath(stream.name))
         # Date
@@ -164,12 +169,25 @@ class HtmlCuraSettings(WorkspaceWriter):
             MAterial=MAterial+Mat
         if MAterial>0:
             M_Weight= "{:.1f} g".format(MAterial).rstrip("0").rstrip(".")
-            self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Material estimation"),M_Weight)            
+            self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Material estimation"),M_Weight)
+            # self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Filament weight"),str(print_information.materialWeights)) 
+            M_Length= str(print_information.materialLengths).rstrip("]").lstrip("[")
+            
+            M_Length="{0:s} m".format(M_Length)
+            self._WriteTd(stream,i18n_cura_catalog.i18nc("@text","Material usage"),M_Length)
+            
+            original_preferences = CuraApplication.getInstance().getPreferences() #Copy only the preferences that we use to the workspace.
+            Currency = original_preferences.getValue("cura/currency")
+            
+            M_Price= str(print_information.materialCosts).rstrip("]").lstrip("[") + " " + Currency
+            self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Filament Cost"),M_Price)
             
             #   Print time
             P_Time = "%d d %d h %d mn"%(print_information.currentPrintTime.days,print_information.currentPrintTime.hours,print_information.currentPrintTime.minutes)
             self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Printing Time"),P_Time)   
-            
+            # self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Print time"),str(print_information.currentPrintTime.getDisplayString(DurationFormat.Format.ISO8601)))
+        
+        
         # Define every section to get the same order as in the Cura Interface
         # Modification from global_stack to extruders[0]
         i=0
