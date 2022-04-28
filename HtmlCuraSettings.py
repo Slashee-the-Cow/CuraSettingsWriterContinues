@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------------------------
-# Copyright (c) 2020 5axes
+# Copyright (c) 2022 5axes
 # Initial Source from Johnny Matthews https://github.com/johnnygizmo/CuraSettingsWriter 
 # The HTML plugin is released under the terms of the AGPLv3 or higher.
 # Version 1.0.3 : simplify the source code with WriteTd
@@ -13,6 +13,7 @@
 # Version 1.1.1 : Machine_manager.activeIntentCategory if Intent is used ( Ultimaker Machine)
 # Version 1.1.2 : Bug correction with Arachne beta release
 # Version 1.1.3 : Add Filament Cost / Material usage
+# Version 2.0.0 : Version 5.0
 #-------------------------------------------------------------------------------------------------
 import os
 import platform
@@ -91,7 +92,8 @@ class HtmlCuraSettings(WorkspaceWriter):
         machine_manager = CuraApplication.getInstance().getMachineManager()        
         stack = CuraApplication.getInstance().getGlobalContainerStack()
 
-        global_stack = machine_manager.activeMachine
+        #global_stack = machine_manager.activeMachine
+        global_stack = CuraApplication.getInstance().getGlobalContainerStack()
 
         TitleTxt =i18n_cura_catalog.i18nc("@label","Print settings")
         ButtonTxt = i18n_cura_catalog.i18nc("@action:label","Visible settings:")
@@ -147,9 +149,10 @@ class HtmlCuraSettings(WorkspaceWriter):
         self._WriteTd(stream,i18n_cura_catalog.i18nc("@label:table_header","Quality"),Q_Name)
                 
         # Material
-        extruders = list(global_stack.extruders.values())      
+        # extruders = list(global_stack.extruders.values())  
+        extruder_stack = CuraApplication.getInstance().getExtruderManager().getActiveExtruderStacks()       
 
-        for Extrud in list(global_stack.extruders.values()):
+        for Extrud in extruder_stack:
             PosE = int(Extrud.getMetaDataEntry("position"))
             PosE += 1
             
@@ -191,7 +194,8 @@ class HtmlCuraSettings(WorkspaceWriter):
         # Define every section to get the same order as in the Cura Interface
         # Modification from global_stack to extruders[0]
         i=0
-        for Extrud in list(global_stack.extruders.values()):    
+        # for Extrud in list(global_stack.extruders.values()):
+        for Extrud in extruder_stack :       
             i += 1                        
             self._doTree(Extrud,"resolution",stream,0,i)
             # Shell before 4.9 and now walls
@@ -210,20 +214,20 @@ class HtmlCuraSettings(WorkspaceWriter):
             if extruder_count>1 :
                 self._doTree(Extrud,"dual",stream,0,i)
 
-        self._doTree(extruders[0],"support",stream,0,0)
-        self._doTree(extruders[0],"platform_adhesion",stream,0,0)
+        self._doTree(extruder_stack[0],"support",stream,0,0)
+        self._doTree(extruder_stack[0],"platform_adhesion",stream,0,0)
         
         i=0
-        for Extrud in list(global_stack.extruders.values()):
+        for Extrud in extruder_stack:
             i += 1
             self._doTree(Extrud,"meshfix",stream,0,i)
         
-        self._doTree(extruders[0],"blackmagic",stream,0,0)
-        self._doTree(extruders[0],"experimental",stream,0,0)
-        self._doTree(extruders[0],"machine_settings",stream,0,0)
+        self._doTree(extruder_stack[0],"blackmagic",stream,0,0)
+        self._doTree(extruder_stack[0],"experimental",stream,0,0)
+        self._doTree(extruder_stack[0],"machine_settings",stream,0,0)
         
         i=0
-        for Extrud in list(global_stack.extruders.values()):
+        for Extrud in extruder_stack:
             i += 1
             self._doTreeExtrud(Extrud,"machine_settings",stream,0,i)
 
