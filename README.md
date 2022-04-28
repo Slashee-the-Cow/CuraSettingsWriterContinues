@@ -26,3 +26,4 @@ Hereafter a sample screenshot of what you get as result.
 - 1.1.2 Minor modification for Arachne and Cura 4.9
 - 1.1.3 New parameter Filament Cost / Material usage
 
+- 2.0.0 Update for release 5.0
