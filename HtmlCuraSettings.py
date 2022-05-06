@@ -2,6 +2,8 @@
 # Copyright (c) 2022 5axes
 # Initial Source from Johnny Matthews https://github.com/johnnygizmo/CuraSettingsWriter 
 # The HTML plugin is released under the terms of the AGPLv3 or higher.
+#-------------------------------------------------------------------------------------------------
+#
 # Version 1.0.3 : simplify the source code with WriteTd
 #               : Export also the meshfix paramater section by extruder and complementary information on extruder for machine definition
 # Version 1.0.4 : html cleanup, no jquery dependency  thanks to https://github.com/etet100
@@ -13,7 +15,9 @@
 # Version 1.1.1 : Machine_manager.activeIntentCategory if Intent is used ( Ultimaker Machine)
 # Version 1.1.2 : Bug correction with Arachne beta release
 # Version 1.1.3 : Add Filament Cost / Material usage
+#
 # Version 2.0.0 : Version 5.0
+# Version 2.0.1 : Export Experiental settings by extruder
 #-------------------------------------------------------------------------------------------------
 import os
 import platform
@@ -217,13 +221,18 @@ class HtmlCuraSettings(WorkspaceWriter):
         self._doTree(extruder_stack[0],"support",stream,0,0)
         self._doTree(extruder_stack[0],"platform_adhesion",stream,0,0)
         
-        i=0
-        for Extrud in extruder_stack:
-            i += 1
-            self._doTree(Extrud,"meshfix",stream,0,i)
+        if extruder_count>1 :
+            i=0
+            for Extrud in extruder_stack:
+                i += 1
+                self._doTree(Extrud,"meshfix",stream,0,i)    
+                self._doTree(Extrud,"blackmagic",stream,0,i)  
+                self._doTree(Extrud,"experimental",stream,0,i)
+        else:
+            self._doTree(extruder_stack[0],"meshfix",stream,0,0)    
+            self._doTree(extruder_stack[0],"blackmagic",stream,0,0)  
+            self._doTree(extruder_stack[0],"experimental",stream,0,0)       
         
-        self._doTree(extruder_stack[0],"blackmagic",stream,0,0)
-        self._doTree(extruder_stack[0],"experimental",stream,0,0)
         self._doTree(extruder_stack[0],"machine_settings",stream,0,0)
         
         i=0
