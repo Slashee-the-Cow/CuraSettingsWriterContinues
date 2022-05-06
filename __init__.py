@@ -1,4 +1,4 @@
-# Copyright (c) 2020 5axes
+# Copyright (c) 2022 5@xes
 # The HtmlCuraSettings plugin is released under the terms of the AGPLv3 or higher.
 
 from . import HtmlCuraSettings
