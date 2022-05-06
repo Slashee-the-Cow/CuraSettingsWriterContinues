@@ -197,26 +197,38 @@ class HtmlCuraSettings(WorkspaceWriter):
         
         # Define every section to get the same order as in the Cura Interface
         # Modification from global_stack to extruders[0]
-        i=0
-        # for Extrud in list(global_stack.extruders.values()):
-        for Extrud in extruder_stack :       
-            i += 1                        
-            self._doTree(Extrud,"resolution",stream,0,i)
+        if extruder_count>1 :
+            i=0
+            # for Extrud in list(global_stack.extruders.values()):
+            for Extrud in extruder_stack :       
+                i += 1                        
+                self._doTree(Extrud,"resolution",stream,0,i)
+                # Shell before 4.9 and now walls
+                self._doTree(Extrud,"shell",stream,0,i)
+                # New section Arachne and 4.9 ?
+                if self.Major > 4 or ( self.Major == 4 and self.Minor >= 9 ) :
+                    self._doTree(Extrud,"top_bottom",stream,0,i)
+
+                self._doTree(Extrud,"infill",stream,0,i)
+                self._doTree(Extrud,"material",stream,0,i)
+                self._doTree(Extrud,"speed",stream,0,i)
+                self._doTree(Extrud,"travel",stream,0,i)
+                self._doTree(Extrud,"cooling",stream,0,i)
+
+                self._doTree(Extrud,"dual",stream,0,i)
+        else:
+            self._doTree(extruder_stack[0],"resolution",stream,0,0)
             # Shell before 4.9 and now walls
-            self._doTree(Extrud,"shell",stream,0,i)
+            self._doTree(extruder_stack[0],"shell",stream,0,0)
             # New section Arachne and 4.9 ?
             if self.Major > 4 or ( self.Major == 4 and self.Minor >= 9 ) :
-                self._doTree(Extrud,"top_bottom",stream,0,i)
+                self._doTree(extruder_stack[0],"top_bottom",stream,0,0)
 
-            self._doTree(Extrud,"infill",stream,0,i)
-            self._doTree(Extrud,"material",stream,0,i)
-            self._doTree(Extrud,"speed",stream,0,i)
-            self._doTree(Extrud,"travel",stream,0,i)
-            self._doTree(Extrud,"cooling",stream,0,i)
-
-            # If single extruder doesn't export the data
-            if extruder_count>1 :
-                self._doTree(Extrud,"dual",stream,0,i)
+            self._doTree(extruder_stack[0],"infill",stream,0,0)
+            self._doTree(extruder_stack[0],"material",stream,0,0)
+            self._doTree(extruder_stack[0],"speed",stream,0,0)
+            self._doTree(extruder_stack[0],"travel",stream,0,0)
+            self._doTree(extruder_stack[0],"cooling",stream,0,0)
 
         self._doTree(extruder_stack[0],"support",stream,0,0)
         self._doTree(extruder_stack[0],"platform_adhesion",stream,0,0)
