@@ -55,12 +55,11 @@ class HtmlCuraSettings(WorkspaceWriter):
         # Logger.log('d', "Info Version CuraVersion --> " + str(Version(CuraVersion)))
         Logger.log('d', "Info CuraVersion --> " + str(CuraVersion))
         
-        # Test version for futur release 4.9
+        # Test version for Cura Master
+        # https://github.com/smartavionics/Cura
         if "master" in CuraVersion :
-            # Master is always a developement version.
             self.Major=4
             self.Minor=20
-
         else:
             try:
                 self.Major = int(CuraVersion.split(".")[0])
