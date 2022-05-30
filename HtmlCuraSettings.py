@@ -185,7 +185,7 @@ class HtmlCuraSettings(WorkspaceWriter):
             original_preferences = CuraApplication.getInstance().getPreferences() #Copy only the preferences that we use to the workspace.
             Currency = original_preferences.getValue("cura/currency")
             
-            M_Price= str(print_information.materialCosts).rstrip("]").lstrip("[") + " " + Currency
+            M_Price= str(round(float(str(print_information.materialCosts).rstrip("]").lstrip("[")),2)) + " " + Currency
             self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Filament Cost"),M_Price)
             
             #   Print time
