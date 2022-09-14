@@ -18,6 +18,7 @@
 #
 # Version 2.0.0 : Version 5.0
 # Version 2.0.1 : Export Experiental settings by extruder
+# Version 2.0.2 : Export PRice for multi extruder
 #-------------------------------------------------------------------------------------------------
 import os
 import platform
@@ -184,9 +185,17 @@ class HtmlCuraSettings(WorkspaceWriter):
             
             original_preferences = CuraApplication.getInstance().getPreferences() #Copy only the preferences that we use to the workspace.
             Currency = original_preferences.getValue("cura/currency")
+            price=str(print_information.materialCosts).rstrip("]").lstrip("[")
+            # Logger.log("d", "Currency = %s",Currency)
+            # Logger.log("d", "price = %s",Currency)
+            # Logger.log("d", "materialCosts = %s",print_information.materialCosts)
             
-            M_Price= str(round(float(str(print_information.materialCosts).rstrip("]").lstrip("[")),2)) + " " + Currency
-            self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Filament Cost"),M_Price)
+            if "," in price :
+                M_Price= price.replace(',',Currency) + Currency
+                self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Filament Cost"),M_Price)            
+            else :
+                M_Price= str(round(float(price),2)) + " " + Currency
+                self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Filament Cost"),M_Price)
             
             #   Print time
             P_Time = "%d d %d h %d mn"%(print_information.currentPrintTime.days,print_information.currentPrintTime.hours,print_information.currentPrintTime.minutes)
