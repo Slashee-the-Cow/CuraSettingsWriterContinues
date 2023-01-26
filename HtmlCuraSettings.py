@@ -19,6 +19,7 @@
 # Version 2.0.0 : Version 5.0
 # Version 2.0.1 : Export Experiental settings by extruder
 # Version 2.0.2 : Export PRice for multi extruder
+# Version 2.1.0 : Translate in French
 #-------------------------------------------------------------------------------------------------
 import os
 import platform
@@ -109,9 +110,9 @@ class HtmlCuraSettings(WorkspaceWriter):
         #global_stack = machine_manager.activeMachine
         global_stack = CuraApplication.getInstance().getGlobalContainerStack()
 
-        TitleTxt =i18n_cura_catalog.i18nc("@label","Print settings")
-        ButtonTxt = i18n_cura_catalog.i18nc("@action:label","Visible settings:")
-        ButtonTxt2 = i18n_cura_catalog.i18nc("@action:label","Custom selection")
+        TitleTxt = catalog.i18nc("@label","Print settings")
+        ButtonTxt = catalog.i18nc("@action:label","Visible settings")
+        ButtonTxt2 = catalog.i18nc("@action:label","Custom selection")
 
         stream.write("<h1>" + TitleTxt + "</h1>\n")
         stream.write("<button id='enabled'>" + ButtonTxt + "</button><P>\n")
@@ -137,7 +138,7 @@ class HtmlCuraSettings(WorkspaceWriter):
         
         stream.write("<table width='100%' border='1' cellpadding='3'>")
         # Job
-        self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Job Name"),print_information.jobName)
+        self._WriteTd(stream,catalog.i18nc("@label","Job Name"),print_information.jobName)
         
               
         # File
@@ -154,13 +155,13 @@ class HtmlCuraSettings(WorkspaceWriter):
         P_Name = global_stack.qualityChanges.getMetaData().get("name", "")
         if P_Name=="empty":
             P_Name = machine_manager.activeIntentCategory
-            self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Intent"),P_Name)
+            self._WriteTd(stream,catalog.i18nc("@label","Intent"),P_Name)
         else:
-            self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Profile"),P_Name)
+            self._WriteTd(stream,catalog.i18nc("@label","Profile"),P_Name)
         
         # Quality
         Q_Name = global_stack.quality.getMetaData().get("name", "")
-        self._WriteTd(stream,i18n_cura_catalog.i18nc("@label:table_header","Quality"),Q_Name)
+        self._WriteTd(stream,catalog.i18nc("@label:table_header","Quality"),Q_Name)
                 
         # Material
         # extruders = list(global_stack.extruders.values())  
@@ -172,12 +173,12 @@ class HtmlCuraSettings(WorkspaceWriter):
             
             M_Name = Extrud.material.getMetaData().get("material", "")
             
-            MaterialStr="%s %s : %d"%(i18n_cura_catalog.i18nc("@label", "Material"),i18n_cura_catalog.i18nc("@label", "Extruder"),PosE)
+            MaterialStr="%s %s : %d"%(catalog.i18nc("@label", "Material"),catalog.i18nc("@label", "Extruder"),PosE)
             self._WriteTd(stream,MaterialStr,M_Name)
             
             if extruder_count>1:
                 M_Enabled = Extrud.getMetaDataEntry("enabled")
-                EnabledStr="%s %s : %d"%(i18n_cura_catalog.i18nc("@label", "Extruder"),i18n_cura_catalog.i18nc("@label", "Enabled"),PosE)
+                EnabledStr="%s %s : %d"%(catalog.i18nc("@label", "Extruder"),catalog.i18nc("@label", "Enabled"),PosE)
                 self._WriteTd(stream,EnabledStr,M_Enabled)
             
         MAterial=0
@@ -186,12 +187,12 @@ class HtmlCuraSettings(WorkspaceWriter):
             MAterial=MAterial+Mat
         if MAterial>0:
             M_Weight= "{:.1f} g".format(MAterial).rstrip("0").rstrip(".")
-            self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Material estimation"),M_Weight)
-            # self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Filament weight"),str(print_information.materialWeights)) 
+            self._WriteTd(stream,catalog.i18nc("@label","Material estimation"),M_Weight)
+            # self._WriteTd(stream,catalog.i18nc("@label","Filament weight"),str(print_information.materialWeights)) 
             M_Length= str(print_information.materialLengths).rstrip("]").lstrip("[")
             
             M_Length="{0:s} m".format(M_Length)
-            self._WriteTd(stream,i18n_cura_catalog.i18nc("@text","Material usage"),M_Length)
+            self._WriteTd(stream,catalog.i18nc("@text","Material usage"),M_Length)
             
             original_preferences = CuraApplication.getInstance().getPreferences() #Copy only the preferences that we use to the workspace.
             Currency = original_preferences.getValue("cura/currency")
@@ -202,15 +203,15 @@ class HtmlCuraSettings(WorkspaceWriter):
             
             if "," in price :
                 M_Price= price.replace(',',Currency) + Currency
-                self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Filament Cost"),M_Price)            
+                self._WriteTd(stream,catalog.i18nc("@label","Filament Cost"),M_Price)            
             else :
                 M_Price= str(round(float(price),2)) + " " + Currency
-                self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Filament Cost"),M_Price)
+                self._WriteTd(stream,catalog.i18nc("@label","Filament Cost"),M_Price)
             
             #   Print time
-            P_Time = "%d d %d h %d mn"%(print_information.currentPrintTime.days,print_information.currentPrintTime.hours,print_information.currentPrintTime.minutes)
-            self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Printing Time"),P_Time)   
-            # self._WriteTd(stream,i18n_cura_catalog.i18nc("@label","Print time"),str(print_information.currentPrintTime.getDisplayString(DurationFormat.Format.ISO8601)))
+            P_Time = catalog.i18nc("@text","%d D %d H %d Mn")%(print_information.currentPrintTime.days,print_information.currentPrintTime.hours,print_information.currentPrintTime.minutes)
+            self._WriteTd(stream,catalog.i18nc("@label","Printing Time"),P_Time)   
+            # self._WriteTd(stream,catalog.i18nc("@label","Print time"),str(print_information.currentPrintTime.getDisplayString(DurationFormat.Format.ISO8601)))
         
         
         # Define every section to get the same order as in the Cura Interface
@@ -293,7 +294,7 @@ class HtmlCuraSettings(WorkspaceWriter):
         #output node
         Info_Extrud=""
         definition_key=key + " label"
-        ExtruderStrg = i18n_cura_catalog.i18nc("@label", "Extruder")
+        ExtruderStrg = catalog.i18nc("@label", "Extruder")
         top_of_stack = cast(InstanceContainer, stack.getTop())  # Cache for efficiency.
         changed_setting_keys = top_of_stack.getAllKeys()            
 
@@ -361,7 +362,7 @@ class HtmlCuraSettings(WorkspaceWriter):
         #output node
         Info_Extrud=""
         definition_key=key + " label"
-        ExtruderStrg = i18n_cura_catalog.i18nc("@label", "Extruder")
+        ExtruderStrg = catalog.i18nc("@label", "Extruder")
         top_of_stack = cast(InstanceContainer, stack.getTop())  # Cache for efficiency.
         changed_setting_keys = top_of_stack.getAllKeys()
         

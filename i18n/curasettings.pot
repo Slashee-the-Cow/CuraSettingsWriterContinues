@@ -1,12 +1,12 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the Spoon Anti-Warping package.
+# This file is distributed under the same license as the Cura HTML Settings package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Spoon Anti-Warping\n"
+"Project-Id-Version: Cura HTML Settings\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-26 13:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -29,7 +29,7 @@ msgstr ""
 
 #: HtmlCuraSettings.py:113
 msgctxt "@action:label"
-msgid "Visible settings:"
+msgid "Visible settings"
 msgstr ""
 
 #: HtmlCuraSettings.py:114
