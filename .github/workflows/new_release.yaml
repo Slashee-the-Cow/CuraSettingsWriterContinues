@@ -3,7 +3,7 @@ name: "Cura-plugin release"
 on:
   push:
     tags:
-      - "release*"
+      - "V*"
 
 jobs:
   create-curapackages:
