@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the Cura HTML Settings package.
+# This file is distributed under the same license as the Spoon Anti-Warping package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Cura HTML Settings\n"
+"Project-Id-Version: Spoon Anti-Warping\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-26 13:54+0000\n"
+"POT-Creation-Date: 2023-01-26 14:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,73 +22,79 @@ msgctxt "@item:inlistbox"
 msgid "Cura Settings Documentation"
 msgstr ""
 
-#: HtmlCuraSettings.py:112
+#: HtmlCuraSettings.py:113
 msgctxt "@label"
 msgid "Print settings"
 msgstr ""
 
-#: HtmlCuraSettings.py:113
+#: HtmlCuraSettings.py:114
 msgctxt "@action:label"
 msgid "Visible settings"
 msgstr ""
 
-#: HtmlCuraSettings.py:114
+#: HtmlCuraSettings.py:115
 msgctxt "@action:label"
 msgid "Custom selection"
 msgstr ""
 
-#: HtmlCuraSettings.py:140
+#: HtmlCuraSettings.py:141
 msgctxt "@label"
 msgid "Job Name"
 msgstr ""
 
-#: HtmlCuraSettings.py:157
+#: HtmlCuraSettings.py:158
 msgctxt "@label"
 msgid "Intent"
 msgstr ""
 
-#: HtmlCuraSettings.py:159
+#: HtmlCuraSettings.py:160
 msgctxt "@label"
 msgid "Profile"
 msgstr ""
 
-#: HtmlCuraSettings.py:163
+#: HtmlCuraSettings.py:164
 msgctxt "@label:table_header"
 msgid "Quality"
 msgstr ""
 
-#: HtmlCuraSettings.py:175
+#: HtmlCuraSettings.py:176
 msgctxt "@label"
 msgid "Material"
 msgstr ""
 
-#: HtmlCuraSettings.py:175 HtmlCuraSettings.py:180 HtmlCuraSettings.py:296
-#: HtmlCuraSettings.py:364
+#: HtmlCuraSettings.py:176 HtmlCuraSettings.py:181 HtmlCuraSettings.py:297
+#: HtmlCuraSettings.py:365
 msgctxt "@label"
 msgid "Extruder"
 msgstr ""
 
-#: HtmlCuraSettings.py:180
+#: HtmlCuraSettings.py:181
 msgctxt "@label"
 msgid "Enabled"
 msgstr ""
 
-#: HtmlCuraSettings.py:189
+#: HtmlCuraSettings.py:190
 msgctxt "@label"
 msgid "Material estimation"
 msgstr ""
 
-#: HtmlCuraSettings.py:194
+#: HtmlCuraSettings.py:195
 msgctxt "@text"
 msgid "Material usage"
 msgstr ""
 
-#: HtmlCuraSettings.py:205 HtmlCuraSettings.py:208
+#: HtmlCuraSettings.py:206 HtmlCuraSettings.py:209
 msgctxt "@label"
 msgid "Filament Cost"
 msgstr ""
 
 #: HtmlCuraSettings.py:212
+#, python-format
+msgctxt "@text"
+msgid "%d D %d H %d Mn"
+msgstr ""
+
+#: HtmlCuraSettings.py:213
 msgctxt "@label"
 msgid "Printing Time"
 msgstr ""
