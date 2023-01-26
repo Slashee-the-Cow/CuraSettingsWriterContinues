@@ -35,6 +35,7 @@ from UM.Preferences import Preferences
 from cura.CuraVersion import CuraVersion  # type: ignore
 from UM.Version import Version
 
+from UM.Resources import Resources
 from UM.i18n import i18nCatalog
 i18n_cura_catalog = i18nCatalog("cura")
 i18n_catalog = i18nCatalog("fdmprinter.def.json")
@@ -43,6 +44,15 @@ i18n_extrud_catalog = i18nCatalog("fdmextruder.def.json")
 from UM.Logger import Logger
 from UM.Message import Message
 
+Resources.addSearchPath(
+    os.path.join(os.path.abspath(os.path.dirname(__file__)))
+)  # Plugin translation file import
+
+catalog = i18nCatalog("curasettings")
+
+if catalog.hasTranslationLoaded():
+    Logger.log("i", "Cura Settings Writter Plugin translation loaded!")
+    
 class HtmlCuraSettings(WorkspaceWriter):
 
     def write(self, stream, nodes, mode = WorkspaceWriter.OutputMode.TextMode):

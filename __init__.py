@@ -5,7 +5,7 @@ from . import HtmlCuraSettings
 
 from UM.Platform import Platform
 from UM.i18n import i18nCatalog
-catalog = i18nCatalog("cura")
+catalog = i18nCatalog("curasettings")
 
 def getMetaData():    
     metaData = {}
