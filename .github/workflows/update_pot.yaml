@@ -1,9 +1,7 @@
 name: "Update i18n template"
 
 on:
-  push:
-    tags:
-      - "*translat*"
+  [push]
 
 jobs:
   update-pot:
