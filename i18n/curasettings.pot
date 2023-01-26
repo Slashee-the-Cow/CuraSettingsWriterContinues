@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the Cura HTML Settings package.
+# This file is distributed under the same license as the Spoon Anti-Warping package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Cura HTML Settings\n"
+"Project-Id-Version: Spoon Anti-Warping\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-26 09:07+0000\n"
+"POT-Creation-Date: 2023-01-26 13:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,3 +17,78 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: __init__.py:16
+msgctxt "@item:inlistbox"
+msgid "Cura Settings Documentation"
+msgstr ""
+
+#: HtmlCuraSettings.py:112
+msgctxt "@label"
+msgid "Print settings"
+msgstr ""
+
+#: HtmlCuraSettings.py:113
+msgctxt "@action:label"
+msgid "Visible settings:"
+msgstr ""
+
+#: HtmlCuraSettings.py:114
+msgctxt "@action:label"
+msgid "Custom selection"
+msgstr ""
+
+#: HtmlCuraSettings.py:140
+msgctxt "@label"
+msgid "Job Name"
+msgstr ""
+
+#: HtmlCuraSettings.py:157
+msgctxt "@label"
+msgid "Intent"
+msgstr ""
+
+#: HtmlCuraSettings.py:159
+msgctxt "@label"
+msgid "Profile"
+msgstr ""
+
+#: HtmlCuraSettings.py:163
+msgctxt "@label:table_header"
+msgid "Quality"
+msgstr ""
+
+#: HtmlCuraSettings.py:175
+msgctxt "@label"
+msgid "Material"
+msgstr ""
+
+#: HtmlCuraSettings.py:175 HtmlCuraSettings.py:180 HtmlCuraSettings.py:296
+#: HtmlCuraSettings.py:364
+msgctxt "@label"
+msgid "Extruder"
+msgstr ""
+
+#: HtmlCuraSettings.py:180
+msgctxt "@label"
+msgid "Enabled"
+msgstr ""
+
+#: HtmlCuraSettings.py:189
+msgctxt "@label"
+msgid "Material estimation"
+msgstr ""
+
+#: HtmlCuraSettings.py:194
+msgctxt "@text"
+msgid "Material usage"
+msgstr ""
+
+#: HtmlCuraSettings.py:205 HtmlCuraSettings.py:208
+msgctxt "@label"
+msgid "Filament Cost"
+msgstr ""
+
+#: HtmlCuraSettings.py:212
+msgctxt "@label"
+msgid "Printing Time"
+msgstr ""
