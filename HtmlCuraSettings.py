@@ -20,12 +20,22 @@
 # Version 2.0.1 : Export Experiental settings by extruder
 # Version 2.0.2 : Export PRice for multi extruder
 # Version 2.1.0 : Translate in French
+# Version 2.1.1 : Add Embbeded ScreenShot ! tested on Chrome / IE and Edge
 #-------------------------------------------------------------------------------------------------
 import os
 import platform
 
 from datetime import datetime
 from typing import cast, Dict, List, Optional, Tuple, Any, Set
+
+USE_QT5 = False
+try:
+    from PyQt6.QtCore import Qt, QObject, QBuffer
+except ImportError:
+    from PyQt5.QtCore import Qt, QObject, QBuffer
+    USE_QT5 = True
+    
+    
 from cura.CuraApplication import CuraApplication
 from UM.Workspace.WorkspaceWriter import WorkspaceWriter
 from UM.Settings.InstanceContainer import InstanceContainer
@@ -34,6 +44,8 @@ from UM.Qt.Duration import DurationFormat
 from UM.Preferences import Preferences
 
 from cura.CuraVersion import CuraVersion  # type: ignore
+from cura.Utils.Threading import call_on_qt_thread
+from cura.Snapshot import Snapshot
 from UM.Version import Version
 
 from UM.Resources import Resources
@@ -139,7 +151,25 @@ class HtmlCuraSettings(WorkspaceWriter):
         stream.write("<table width='100%' border='1' cellpadding='3'>")
         # Job
         self._WriteTd(stream,catalog.i18nc("@label","Job Name"),print_information.jobName)
-        
+
+        # Attempt to add a thumbnail
+        snapshot = self._createSnapshot()
+        if snapshot:
+            thumbnail_buffer = QBuffer()
+            
+            if USE_QT5:
+                thumbnail_buffer.open(QBuffer.ReadWrite)
+            else:
+                thumbnail_buffer.open(QBuffer.OpenModeFlag.ReadWrite)
+                    
+            snapshot.save(thumbnail_buffer, "PNG")
+            encodedSnapshot = thumbnail_buffer.data().toBase64().data().decode("utf-8")
+
+            # thumbnail_file = zipfile.ZipInfo(THUMBNAIL_PATH)
+            # Don't try to compress snapshot file, because the PNG is pretty much as compact as it will get
+            # archive.writestr(thumbnail_file, thumbnail_buffer.data()) 
+            Logger.log("d", "stream = {}".format(encodedSnapshot))
+            stream.write("<tr><td colspan='3'><center><img src='data:image/png;base64," + str(encodedSnapshot)+ "' width='300' height='300' alt='" + print_information.jobName + "' title='" + print_information.jobName + "' /></cente></td></tr>" )            
               
         # File
         # self._WriteTd(stream,"File",os.path.abspath(stream.name))
@@ -422,3 +452,17 @@ class HtmlCuraSettings(WorkspaceWriter):
         if len(stack.getSettingDefinition(key).children) > 0:
             for i in stack.getSettingDefinition(key).children:       
                 self._doTreeExtrud(stack,i.key,stream,depth,extrud)
+
+    @call_on_qt_thread  # must be called from the main thread because of OpenGL
+    def _createSnapshot(self):
+        Logger.log("d", "Creating thumbnail image...")
+        if not CuraApplication.getInstance().isVisible:
+            Logger.log("w", "Can't create snapshot when renderer not initialized.")
+            return None
+        try:
+            snapshot = Snapshot.snapshot(width = 300, height = 300)
+        except:
+            Logger.logException("w", "Failed to create snapshot image")
+            return None
+
+        return snapshot
