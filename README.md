@@ -31,3 +31,5 @@ Hereafter a sample screenshot of what you get as result.
 - 2.0.2 Update for release 5.1 & bug correction for dual extruder export
 
 - 2.1.0 French Translation and Update i18n template ( curasettings.pot )
+
+- 2.1.1 Add embedded Screenshot tested on Chrome / IE and Edge

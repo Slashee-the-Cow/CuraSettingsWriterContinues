@@ -20,7 +20,7 @@
 # Version 2.0.1 : Export Experiental settings by extruder
 # Version 2.0.2 : Export PRice for multi extruder
 # Version 2.1.0 : Translate in French
-# Version 2.1.1 : Add Embbeded ScreenShot ! tested on Chrome / IE and Edge
+# Version 2.1.1 : Add Embedded ScreenShot ! tested on Chrome / IE and Edge
 #-------------------------------------------------------------------------------------------------
 import os
 import platform
