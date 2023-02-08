@@ -1,8 +1,8 @@
-#-------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Copyright (c) 2022 5axes
 # Initial Source from Johnny Matthews https://github.com/johnnygizmo/CuraSettingsWriter 
 # The HTML plugin is released under the terms of the AGPLv3 or higher.
-#-------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 #
 # Version 1.0.3 : simplify the source code with WriteTd
 #               : Export also the meshfix paramater section by extruder and complementary information on extruder for machine definition
@@ -20,8 +20,8 @@
 # Version 2.0.1 : Export Experiental settings by extruder
 # Version 2.0.2 : Export PRice for multi extruder
 # Version 2.1.0 : Translate in French
-# Version 2.1.1 : Add Embedded ScreenShot ! tested on Chrome / IE and Edge
-#-------------------------------------------------------------------------------------------------
+# Version 2.1.1 : Add Embbeded ScreenShot ! tested on Chrome / IE and Edge  Comaptibility of the Code Cura 4.10
+#-----------------------------------------------------------------------------------------------------------------------
 import os
 import platform
 
@@ -452,7 +452,7 @@ class HtmlCuraSettings(WorkspaceWriter):
         if len(stack.getSettingDefinition(key).children) > 0:
             for i in stack.getSettingDefinition(key).children:       
                 self._doTreeExtrud(stack,i.key,stream,depth,extrud)
-
+    # Compatibility Cura 4.10 and upper
     @call_on_qt_thread  # must be called from the main thread because of OpenGL
     def _createSnapshot(self):
         Logger.log("d", "Creating thumbnail image...")
