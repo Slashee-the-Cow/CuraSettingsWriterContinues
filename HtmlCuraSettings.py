@@ -168,7 +168,7 @@ class HtmlCuraSettings(WorkspaceWriter):
             # thumbnail_file = zipfile.ZipInfo(THUMBNAIL_PATH)
             # Don't try to compress snapshot file, because the PNG is pretty much as compact as it will get
             # archive.writestr(thumbnail_file, thumbnail_buffer.data()) 
-            Logger.log("d", "stream = {}".format(encodedSnapshot))
+            # Logger.log("d", "stream = {}".format(encodedSnapshot))
             stream.write("<tr><td colspan='3'><center><img src='data:image/png;base64," + str(encodedSnapshot)+ "' width='300' height='300' alt='" + print_information.jobName + "' title='" + print_information.jobName + "' /></cente></td></tr>" )            
               
         # File
