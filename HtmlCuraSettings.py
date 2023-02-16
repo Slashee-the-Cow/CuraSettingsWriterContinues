@@ -351,6 +351,13 @@ class HtmlCuraSettings(WorkspaceWriter):
         stream.write("</html>")
         return True
 
+    def _WriteTdNormal(self,stream,Key,ValStr):
+
+        stream.write("<tr class='normal'>")
+        stream.write("<td class='w-50'>" + Key + "</td>")
+        stream.write("<td colspan='2'>" + str(ValStr) + "</td>")
+        stream.write("</tr>\n")
+        
     def _WriteTd(self,stream,Key,ValStr):
 
         stream.write("<tr>")
