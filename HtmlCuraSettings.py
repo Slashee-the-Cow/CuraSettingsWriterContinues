@@ -25,6 +25,8 @@
 #-----------------------------------------------------------------------------------------------------------------------
 import os
 import platform
+import html
+import configparser  # The script lists are stored in metadata as serialised config files.
 
 from datetime import datetime
 from typing import cast, Dict, List, Optional, Tuple, Any, Set
@@ -58,6 +60,8 @@ i18n_extrud_catalog = i18nCatalog("fdmextruder.def.json")
 
 from UM.Logger import Logger
 from UM.Message import Message
+
+encode = html.escape
 
 Resources.addSearchPath(
     os.path.join(os.path.abspath(os.path.dirname(__file__)))
