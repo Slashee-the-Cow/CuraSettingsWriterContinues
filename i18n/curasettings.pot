@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HtmlCuraSettings\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-14 18:01+0000\n"
+"POT-Creation-Date: 2023-02-16 10:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,79 +22,84 @@ msgctxt "@item:inlistbox"
 msgid "Cura Settings Documentation"
 msgstr ""
 
-#: HtmlCuraSettings.py:125
+#: HtmlCuraSettings.py:132
 msgctxt "@label"
 msgid "Print settings"
 msgstr ""
 
-#: HtmlCuraSettings.py:126
+#: HtmlCuraSettings.py:133
 msgctxt "@action:label"
 msgid "Visible settings"
 msgstr ""
 
-#: HtmlCuraSettings.py:127
+#: HtmlCuraSettings.py:134
 msgctxt "@action:label"
-msgid "Custom selection"
+msgid "User Modifications"
 msgstr ""
 
-#: HtmlCuraSettings.py:153
+#: HtmlCuraSettings.py:160
 msgctxt "@label"
 msgid "Job Name"
 msgstr ""
 
-#: HtmlCuraSettings.py:188
+#: HtmlCuraSettings.py:195
 msgctxt "@label"
 msgid "Intent"
 msgstr ""
 
-#: HtmlCuraSettings.py:190
+#: HtmlCuraSettings.py:197
 msgctxt "@label"
 msgid "Profile"
 msgstr ""
 
-#: HtmlCuraSettings.py:194
+#: HtmlCuraSettings.py:201
 msgctxt "@label:table_header"
 msgid "Quality"
 msgstr ""
 
-#: HtmlCuraSettings.py:206
+#: HtmlCuraSettings.py:213
 msgctxt "@label"
 msgid "Material"
 msgstr ""
 
-#: HtmlCuraSettings.py:206 HtmlCuraSettings.py:211 HtmlCuraSettings.py:327
-#: HtmlCuraSettings.py:395
+#: HtmlCuraSettings.py:213 HtmlCuraSettings.py:218 HtmlCuraSettings.py:362
+#: HtmlCuraSettings.py:430
 msgctxt "@label"
 msgid "Extruder"
 msgstr ""
 
-#: HtmlCuraSettings.py:211
+#: HtmlCuraSettings.py:218
 msgctxt "@label"
 msgid "Enabled"
 msgstr ""
 
-#: HtmlCuraSettings.py:220
+#: HtmlCuraSettings.py:227
 msgctxt "@label"
 msgid "Material estimation"
 msgstr ""
 
-#: HtmlCuraSettings.py:225
+#: HtmlCuraSettings.py:232
 msgctxt "@text"
 msgid "Material usage"
 msgstr ""
 
-#: HtmlCuraSettings.py:236 HtmlCuraSettings.py:239
+#: HtmlCuraSettings.py:243 HtmlCuraSettings.py:246
 msgctxt "@label"
 msgid "Filament Cost"
 msgstr ""
 
-#: HtmlCuraSettings.py:242
+#: HtmlCuraSettings.py:249
 #, python-format
 msgctxt "@text"
 msgid "%d D %d H %d Mn"
 msgstr ""
 
-#: HtmlCuraSettings.py:243
+#: HtmlCuraSettings.py:250
 msgctxt "@label"
 msgid "Printing Time"
+msgstr ""
+
+#: HtmlCuraSettings.py:324
+msgctxt "@label"
+msgid "Postprocessing Scripts"
 msgstr ""
