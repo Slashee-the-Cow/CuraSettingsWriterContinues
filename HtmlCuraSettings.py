@@ -21,6 +21,7 @@
 # Version 2.0.2 : Export PRice for multi extruder
 # Version 2.1.0 : Translate in French
 # Version 2.1.1 : Add Embbeded ScreenShot ! tested on Chrome / IE and Edge  Comaptibility of the Code Cura 4.10
+# Version 2.1.2 : Add PostProcessing Script Infos + Solved User modification issue
 #-----------------------------------------------------------------------------------------------------------------------
 import os
 import platform
@@ -50,6 +51,7 @@ from UM.Version import Version
 
 from UM.Resources import Resources
 from UM.i18n import i18nCatalog
+
 i18n_cura_catalog = i18nCatalog("cura")
 i18n_catalog = i18nCatalog("fdmprinter.def.json")
 i18n_extrud_catalog = i18nCatalog("fdmextruder.def.json")
@@ -122,9 +124,14 @@ class HtmlCuraSettings(WorkspaceWriter):
         #global_stack = machine_manager.activeMachine
         global_stack = CuraApplication.getInstance().getGlobalContainerStack()
 
+        self._modified_global_param =[]
+        # modified paramater       
+        top_of_stack = cast(InstanceContainer, global_stack.getTop())  # Cache for efficiency.
+        self._modified_global_param = top_of_stack.getAllKeys()
+        
         TitleTxt = catalog.i18nc("@label","Print settings")
         ButtonTxt = catalog.i18nc("@action:label","Visible settings")
-        ButtonTxt2 = catalog.i18nc("@action:label","Custom selection")
+        ButtonTxt2 = catalog.i18nc("@action:label","User Modifications")
 
         stream.write("<h1>" + TitleTxt + "</h1>\n")
         stream.write("<button id='enabled'>" + ButtonTxt + "</button><P>\n")
@@ -307,6 +314,34 @@ class HtmlCuraSettings(WorkspaceWriter):
         #         if global_stack.getProperty(key,"type") == "category":
         #             self._doTree(global_stack,key,stream,0)
 
+        #----------------------------------------
+        #  Add Script List in the HTML Log File
+        #----------------------------------------
+        script_list = []
+        scripts_list = global_stack.getMetaDataEntry("post_processing_scripts")
+        if scripts_list :
+            stream.write("<tr class='category'>")
+            stream.write("<td colspan='3'>" + catalog.i18nc("@label","Postprocessing Scripts") + "</td>")
+            stream.write("</tr>\n")        
+            for script_str in scripts_list.split("\n"):  # Encoded config files should never contain three newlines in a row. At most 2, just before section headers.
+                        if not script_str:  # There were no scripts in this one (or a corrupt file caused more than 3 consecutive newlines here).
+                            continue
+                        script_str = script_str.replace(r"\\\n", "\n").replace(r"\\\\", "\\\\")  # Unescape escape sequences.
+                        script_parser = configparser.ConfigParser(interpolation=None)
+                        script_parser.optionxform = str  # type: ignore  # Don't transform the setting keys as they are case-sensitive.
+                        try:
+                            script_parser.read_string(script_str)
+                        except configparser.Error as e:
+                            Logger.error("Stored post-processing scripts have syntax errors: {err}".format(err = str(e)))
+                            continue
+                        for script_name, settings in script_parser.items():  # There should only be one, really! Otherwise we can't guarantee the order or allow multiple uses of the same script.
+                            if script_name == "DEFAULT":  # ConfigParser always has a DEFAULT section, but we don't fill it. Ignore this one.
+                                continue
+                            setting_param = ""
+                            for setting_key, setting_value in settings.items():
+                                setting_param += setting_key + " : " + setting_value + "<br>"
+                            self._WriteTdNormal(stream,script_name,setting_param)
+                            
         stream.write("</table>")
         stream.write("</body>")
         stream.write("</html>")
@@ -347,7 +382,7 @@ class HtmlCuraSettings(WorkspaceWriter):
             if stack.getProperty(key,"enabled") == False:
                 stream.write("<tr class='disabled'>")
             else:
-                if key in changed_setting_keys:
+                if key in self._modified_global_param or key in changed_setting_keys : # changed_setting_keys:
                     stream.write("<tr class='local'>")
                 else:
                     stream.write("<tr class='normal'>")
@@ -413,7 +448,7 @@ class HtmlCuraSettings(WorkspaceWriter):
             if stack.getProperty(key,"enabled") == False:
                 stream.write("<tr class='disabled'>")
             else:
-                if key in changed_setting_keys:
+                if key in self._modified_global_param or key in changed_setting_keys : #changed_setting_keys:
                     stream.write("<tr class='local'>")
                 else:
                     stream.write("<tr class='normal'>")
