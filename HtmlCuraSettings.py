@@ -420,7 +420,7 @@ class HtmlCuraSettings(WorkspaceWriter):
                     GelValStr=i18n_catalog.i18nc(definition_option, GetOptionDetail)
                     # Logger.log("d", "GetType_doTree = %s ; %s ; %s ; %s",definition_option, GelValStr, GetOption, GetOptionDetail)
                 else:
-                    GelValStr=str(GetVal)
+                    GelValStr=str(GetVal).replace(r"\n", "<br>")
             
             stream.write("<td class='val'>" + GelValStr + "</td>")
             
@@ -485,7 +485,7 @@ class HtmlCuraSettings(WorkspaceWriter):
                     GelValStr=i18n_catalog.i18nc(definition_option, GetOptionDetail)
                     # Logger.log("d", "GetType_doTree = %s ; %s ; %s ; %s",definition_option, GelValStr, GetOption, GetOptionDetail)
                 else:
-                    GelValStr=str(GetVal)
+                    GelValStr=str(GetVal).replace(r"\n", "<br>")
                 
             stream.write("<td class='val'>" + GelValStr + "</td>")
             
