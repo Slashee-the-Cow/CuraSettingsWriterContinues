@@ -22,6 +22,7 @@
 # Version 2.1.0 : Translate in French
 # Version 2.1.1 : Add Embbeded ScreenShot ! tested on Chrome / IE and Edge  Comaptibility of the Code Cura 4.10
 # Version 2.1.2 : Add PostProcessing Script Infos + Solved User modification issue
+# Version 2.1.3 : Change location i18n
 #-----------------------------------------------------------------------------------------------------------------------
 import os
 import platform
@@ -64,7 +65,7 @@ from UM.Message import Message
 encode = html.escape
 
 Resources.addSearchPath(
-    os.path.join(os.path.abspath(os.path.dirname(__file__)))
+    os.path.join(os.path.abspath(os.path.dirname(__file__)),'resources')
 )  # Plugin translation file import
 
 catalog = i18nCatalog("curasettings")
