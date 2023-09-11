@@ -23,6 +23,7 @@
 # Version 2.1.1 : Add Embbeded ScreenShot ! tested on Chrome / IE and Edge  Comaptibility of the Code Cura 4.10
 # Version 2.1.2 : Add PostProcessing Script Infos + Solved User modification issue
 # Version 2.1.3 : Change location i18n
+# Version 2.1.4 : Orange BAckground for not translated Parameters
 #-----------------------------------------------------------------------------------------------------------------------
 import os
 import platform
@@ -113,6 +114,7 @@ class HtmlCuraSettings(WorkspaceWriter):
                     .w-10 { width: 10%; }
                     .w-50 { width: 50%; }
                     .w-70 { width: 70%; }
+                    .w-70o { width: 70%; background-color: #FFA500; }
                     .pl-l { padding-left: 20px; }
                     .pl-2 { padding-left: 40px; }
                     .pl-3 { padding-left: 60px; }
@@ -402,9 +404,12 @@ class HtmlCuraSettings(WorkspaceWriter):
             # untranslated_label=stack.getProperty(key,"label").capitalize()
             untranslated_label=stack.getProperty(key,"label")           
             translated_label=i18n_catalog.i18nc(definition_key, untranslated_label)
-            
-            stream.write("<td class='w-70 pl-"+str(depth)+"'>" + str(translated_label) + "</td>")
-            
+
+            if translated_label == untranslated_label :
+                stream.write("<td class='w-70o pl-"+str(depth)+"'>" + str(translated_label) + "</td>")
+            else :
+                stream.write("<td class='w-70 pl-"+str(depth)+"'>" + str(translated_label) + "</td>")            
+
             GetType=stack.getProperty(key,"type")
             GetVal=stack.getProperty(key,"value")
             
@@ -469,7 +474,10 @@ class HtmlCuraSettings(WorkspaceWriter):
             untranslated_label=stack.getProperty(key,"label")           
             translated_label=i18n_extrud_catalog.i18nc(definition_key, untranslated_label)
             
-            stream.write("<td class='w-70 pl-"+str(depth)+"'>" + str(translated_label) + "</td>")
+            if translated_label == untranslated_label :
+                stream.write("<td class='w-70o pl-"+str(depth)+"'>" + str(translated_label) + "</td>")
+            else :
+                stream.write("<td class='w-70 pl-"+str(depth)+"'>" + str(translated_label) + "</td>")
             
             GetType=stack.getProperty(key,"type")
             GetVal=stack.getProperty(key,"value")
