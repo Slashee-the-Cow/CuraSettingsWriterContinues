@@ -1,8 +1,8 @@
-#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------
 # Copyright (c) 2022 5axes
 # Initial Source from Johnny Matthews https://github.com/johnnygizmo/CuraSettingsWriter 
 # The HTML plugin is released under the terms of the AGPLv3 or higher.
-#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------
 #
 # Version 1.0.3 : simplify the source code with WriteTd
 #               : Export also the meshfix paramater section by extruder and complementary information on extruder for machine definition
@@ -23,8 +23,8 @@
 # Version 2.1.1 : Add Embbeded ScreenShot ! tested on Chrome / IE and Edge  Comaptibility of the Code Cura 4.10
 # Version 2.1.2 : Add PostProcessing Script Infos + Solved User modification issue
 # Version 2.1.3 : Change location i18n
-# Version 2.1.4 : Orange BAckground for not translated Parameters
-#-----------------------------------------------------------------------------------------------------------------------
+# Version 2.1.4 : Orange Background for not translated Parameters ( Supposed also to be new parameters for Alpha and Plugin )
+#-----------------------------------------------------------------------------------------------------------------------------------------
 import os
 import platform
 import html
