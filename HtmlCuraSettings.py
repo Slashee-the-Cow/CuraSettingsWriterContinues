@@ -23,7 +23,7 @@
 # Version 2.1.1 : Add Embbeded ScreenShot ! tested on Chrome / IE and Edge  Comaptibility of the Code Cura 4.10
 # Version 2.1.2 : Add PostProcessing Script Infos + Solved User modification issue
 # Version 2.1.3 : Change location i18n
-# Version 2.1.4 : Orange Background for not translated Parameters ( Supposed also to be new parameters for Alpha and Plugin )
+# Version 2.1.4 : Orange Background for not translated Parameters ( Supposed to be new parameters in the case of Alpha versions or Plugins )
 #-----------------------------------------------------------------------------------------------------------------------------------------
 import os
 import platform
@@ -184,14 +184,18 @@ class HtmlCuraSettings(WorkspaceWriter):
             # archive.writestr(thumbnail_file, thumbnail_buffer.data()) 
             # Logger.log("d", "stream = {}".format(encodedSnapshot))
             stream.write("<tr><td colspan='3'><center><img src='data:image/png;base64," + str(encodedSnapshot)+ "' width='300' height='300' alt='" + print_information.jobName + "' title='" + print_information.jobName + "' /></cente></td></tr>" )            
-              
+        
+        self.cura_locale = CuraApplication.getInstance().getPreferences().getValue("general/language")
+        
         # File
         # self._WriteTd(stream,"File",os.path.abspath(stream.name))
         # Date
         self._WriteTd(stream,"Date",datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
         # platform
         self._WriteTd(stream,"Os",str(platform.system()) + " " + str(platform.version()))
-       
+        # language
+        self._WriteTd(stream,"Language",str(self.cura_locale))
+        
         # Version  
         self._WriteTd(stream,"Cura Version",CuraVersion)
             
@@ -405,7 +409,8 @@ class HtmlCuraSettings(WorkspaceWriter):
             untranslated_label=stack.getProperty(key,"label")           
             translated_label=i18n_catalog.i18nc(definition_key, untranslated_label)
 
-            if translated_label == untranslated_label :
+            if translated_label == untranslated_label and self.cura_locale != "en_US" :
+                Logger.log("d", "translated/unstranslated = %s ; %s",translated_label, untranslated_label)
                 stream.write("<td class='w-70o pl-"+str(depth)+"'>" + str(translated_label) + "</td>")
             else :
                 stream.write("<td class='w-70 pl-"+str(depth)+"'>" + str(translated_label) + "</td>")            
@@ -474,7 +479,8 @@ class HtmlCuraSettings(WorkspaceWriter):
             untranslated_label=stack.getProperty(key,"label")           
             translated_label=i18n_extrud_catalog.i18nc(definition_key, untranslated_label)
             
-            if translated_label == untranslated_label :
+            if translated_label == untranslated_label and self.cura_locale != "en_US" :
+                Logger.log("d", "translated/unstranslated = %s ; %s",translated_label, untranslated_label)
                 stream.write("<td class='w-70o pl-"+str(depth)+"'>" + str(translated_label) + "</td>")
             else :
                 stream.write("<td class='w-70 pl-"+str(depth)+"'>" + str(translated_label) + "</td>")
