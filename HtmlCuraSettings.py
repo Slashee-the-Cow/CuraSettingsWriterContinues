@@ -410,7 +410,7 @@ class HtmlCuraSettings(WorkspaceWriter):
             translated_label=i18n_catalog.i18nc(definition_key, untranslated_label)
 
             if translated_label == untranslated_label and self.cura_locale != "en_US" :
-                Logger.log("d", "translated/unstranslated = %s ; %s",translated_label, untranslated_label)
+                # Logger.log("d", "translated/unstranslated = %s ; %s",translated_label, untranslated_label)
                 stream.write("<td class='w-70o pl-"+str(depth)+"'>" + str(translated_label) + "</td>")
             else :
                 stream.write("<td class='w-70 pl-"+str(depth)+"'>" + str(translated_label) + "</td>")            
@@ -480,7 +480,7 @@ class HtmlCuraSettings(WorkspaceWriter):
             translated_label=i18n_extrud_catalog.i18nc(definition_key, untranslated_label)
             
             if translated_label == untranslated_label and self.cura_locale != "en_US" :
-                Logger.log("d", "translated/unstranslated = %s ; %s",translated_label, untranslated_label)
+                # Logger.log("d", "translated/unstranslated = %s ; %s",translated_label, untranslated_label)
                 stream.write("<td class='w-70o pl-"+str(depth)+"'>" + str(translated_label) + "</td>")
             else :
                 stream.write("<td class='w-70 pl-"+str(depth)+"'>" + str(translated_label) + "</td>")
