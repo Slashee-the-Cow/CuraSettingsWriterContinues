@@ -2,7 +2,7 @@
 
 Cura Plugin for Exporting Settings to an HTML file.
 
-Initial Source from Johnny Matthews :  <https://github.com/johnnygizmo/CuraSettingsWriter>
+Initial Source from Johnny Matthews :  <https://github.com/johnnygizmo/CuraSettingsWriter>  
 Further development by 5axes: <https://github.com/5axes/CuraSettingsWriter>
 
 It creates an extra menu option under File -> "Save Project..." that allows you to save all of the settings to an HTML file for review/sharing. 
